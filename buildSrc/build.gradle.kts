@@ -1,21 +1,25 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-}
+    `kotlin-dsl`
 
-group = "org.kaistinea"
-version = "1.0-SNAPSHOT"
+
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(gradleApi())
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.kotlin.stdlib)
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
+gradlePlugin {
+    plugins {
+        register("kaistineaMicroservicePlugin") {
+            id = libs.plugins.kaistinea.microservice.get().pluginId
+            implementationClass = "project.plugins.KaistineaMicroservicePlugin"
+        }
+    }
 }
