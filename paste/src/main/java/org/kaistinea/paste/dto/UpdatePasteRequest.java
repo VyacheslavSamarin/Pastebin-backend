@@ -17,28 +17,15 @@ import java.util.List;
 @Jacksonized
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PasteDTO {
-    @NotNull
+public class UpdatePasteRequest {
     @Size(min = 1, max = 100)
     private String title;
 
     private String content;
 
-    @NotNull
-    private Long authorId;
-
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    private OffsetDateTime creationDate;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private OffsetDateTime expirationDate;
 
-    @NotNull
     private Boolean isPublic;
 
-    @NotNull
-    private Long viewCount;
-
-    private List<TagDTO> tags;
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paste{
+public class PasteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paste_seq")
@@ -30,17 +30,23 @@ public class Paste{
     private Long authorId;
 
     @CreationTimestamp
-    private OffsetDateTime creationDate;
+    private OffsetDateTime creationDate = OffsetDateTime.now();
 
     private OffsetDateTime expirationDate;
 
     @Column(nullable = false)
     private Boolean isPublic;
 
+    @Builder.Default
     private Long viewCount = 0L;
 
     @ManyToMany
-    private List<Tag> tags;
+    @JoinTable(
+            name = "paste_tag",
+            joinColumns = @JoinColumn(name = "paste_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<TagEntity> tagEntities;
 
 
 }
