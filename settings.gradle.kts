@@ -14,8 +14,8 @@ dependencyResolutionManagement {
 rootProject.name = "Pastebin-backend"
 //include("api-gateway")
 //include("auth")
-//include("generation")
-include("paste")
+include("generation")
+//include("paste")
 //include("notification")
 //include("user")
 //include("storage")
