@@ -23,4 +23,12 @@ public class KeyController {
     public ResponseEntity<List<KeyDTO>> getALlKeys() {
         return ResponseEntity.ok(keyService.getAllKeys());
     }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/first"
+    )
+    public ResponseEntity<KeyDTO> getKey(){
+        return ResponseEntity.ok(keyService.getKey());
+    }
 }
