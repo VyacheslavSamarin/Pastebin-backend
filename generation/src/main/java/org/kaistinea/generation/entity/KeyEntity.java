@@ -20,5 +20,5 @@ public class KeyEntity {
     private String uniqueKey;
 
     @Builder.Default
-    private Boolean isActive = false;
+    private Boolean isAvailable = true;
 }
