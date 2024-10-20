@@ -4,5 +4,5 @@ plugins{
 
 dependencies {
     implementation(libs.database.h2)
-//    implementation(libs.mapstruct.processor)
+    implementation(project(":common"))
 }
