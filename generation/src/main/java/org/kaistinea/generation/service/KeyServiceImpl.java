@@ -1,5 +1,6 @@
 package org.kaistinea.generation.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.kaistinea.generation.dto.KeyDTO;
 import org.kaistinea.generation.entity.KeyEntity;
@@ -30,8 +31,11 @@ public class KeyServiceImpl implements KeyService {
     }
 
     @Override
+    @Transactional
     public KeyDTO getKey() {
-        return null;
+        KeyEntity key = keyRepository.findFirstByIsAvailableTrue();
+        key.setIsAvailable(false);
+        return keyMapper.toDTO(key);
     }
 
     @Override
