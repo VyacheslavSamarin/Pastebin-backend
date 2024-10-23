@@ -32,7 +32,7 @@ public class PasteServiceImpl implements PasteService {
     private final TagRepository tagRepository;
 
     @Override
-    public void deletePast(Long id) {
+    public void deletePaste(Long id) {
         if (pasteRepository.existsById(id)) {
             pasteRepository.deleteById(id);
         } else {

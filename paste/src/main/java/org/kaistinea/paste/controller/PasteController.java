@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/pastes")
@@ -22,7 +23,7 @@ public class PasteController {
             value = "/{id}"
     )
     public ResponseEntity<Void> deletePaste(@PathVariable Long id) {
-        pasteService.deletePast(id);
+        pasteService.deletePaste(id);
         return ResponseEntity.noContent().build();
     }
 

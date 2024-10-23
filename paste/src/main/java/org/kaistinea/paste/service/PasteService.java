@@ -7,7 +7,7 @@ import org.kaistinea.paste.dto.UpdatePasteRequest;
 import java.util.List;
 
 public interface PasteService {
-    void deletePast(Long id);
+    void deletePaste(Long id);
 
     PasteDTO getPaste(Long id);
 
