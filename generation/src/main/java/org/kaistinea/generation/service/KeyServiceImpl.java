@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.kaistinea.generation.dto.KeyDTO;
 import org.kaistinea.generation.entity.KeyEntity;
 import org.kaistinea.generation.mapper.KeyMapper;
-import org.kaistinea.generation.repository.KeyRepository;
+import org.kaistinea.generation.repository.JpaKeyRepository;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,25 +19,36 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class KeyServiceImpl implements KeyService {
-    private final KeyRepository keyRepository;
+    private final JpaKeyRepository keyRepository;
     private final KeyMapper keyMapper;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     @Scheduled(fixedRate = 5000)
     public void generateKeys() {
         UUID uuid = UUID.randomUUID();
         ByteBuffer buffer = ByteBuffer.wrap(Base64.getEncoder().encode(uuid.toString().getBytes()));
+        String uniqueKey = Base64.getEncoder().encodeToString(buffer.array());
         KeyEntity keyEntity = new KeyEntity();
-        keyEntity.setUniqueKey(Base64.getEncoder().encodeToString(buffer.array()));
+        keyEntity.setUniqueKey(uniqueKey);
         keyRepository.save(keyEntity);
+
+        redisTemplate.opsForList().rightPush("keys", uniqueKey);
     }
 
     @Override
     @Transactional
     public KeyDTO getKey() {
-        KeyEntity key = keyRepository.findFirstByIsAvailableTrue();
-        key.setIsAvailable(false);
-        return keyMapper.toDTO(key);
+        String keyFromRedis = redisTemplate.opsForList().leftPop("keys");
+
+        if (keyFromRedis == null) {
+            KeyEntity key = keyRepository.findFirstByIsAvailableTrue()
+                    .orElseThrow(() -> new RuntimeException("Key not found"));
+            key.setIsAvailable(false);
+            return keyMapper.toDTO(key);
+        }
+
+        return new KeyDTO(keyFromRedis);
     }
 
     @Override
