@@ -23,5 +23,5 @@ public class NotificationDTO {
     @NotNull
     private NotificationType type;
     @NotNull
-    private OffsetDateTime createdAt;
+    private OffsetDateTime sendAt;
 }
