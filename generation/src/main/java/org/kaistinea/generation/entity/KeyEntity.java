@@ -5,7 +5,6 @@ import lombok.*;
 
 @Entity
 @Table(name = "keys")
-//@RedisHash(value = "KeyEntity")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,5 +19,5 @@ public class KeyEntity {
     private String uniqueKey;
 
     @Builder.Default
-    private Boolean isAvailable = true;
+    private Boolean isAvailable = false;
 }
