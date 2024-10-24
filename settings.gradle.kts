@@ -17,6 +17,6 @@ rootProject.name = "Pastebin-backend"
 include("generation")
 include("paste")
 //include("notification")
-//include("user")
+include("user")
 //include("storage")
 include("common")
