@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(UpdateUserRequest updateUserRequest, Long id) {
         if (userRepository.existsById(id)) {
             updateUserMapper.updateUser(userRepository.findById(id).get(), updateUserRequest);
