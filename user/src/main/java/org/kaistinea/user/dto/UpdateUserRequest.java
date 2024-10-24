@@ -12,7 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserRequest {
-    private String userName;
+    private String username;
 
     private String email;
 
